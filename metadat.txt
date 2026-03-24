@@ -1,0 +1,16 @@
+name=Forest Plot Review
+qgisMinimumVersion=3.22
+description=Rà soát lô rừng với ảnh vệ tinh Sentinel-2/Planet năm 2020. Xác nhận từng lô là có rừng (1) hoặc không có rừng (0).
+version=1.0.0
+author=Nguyen Trong Cuong _ VNUF
+email=cuongnt@vnuf.edu.vn
+about=Plugin hỗ trợ rà soát các lô rừng trong phòng bằng ảnh vệ tinh Sentinel-2 hoặc Planet năm 2020. Nhập shapefile lô rừng, duyệt từng lô theo ID, xem ảnh vệ tinh và ghi nhận kết quả xác nhận (0=không có rừng, 1=có rừng).
+tracker=https://github.com/forest-review/qgis-plugin/issues
+repository=https://github.com/forest-review/qgis-plugin
+changelog=1.0.0 - Phiên bản đầu tiên do Nguyễn Trọng Cương phát triển
+tags=forest,remote sensing,sentinel,planet,review,vietnam,rừng,viễn thám
+homepage=https://github.com/forest-review/qgis-plugin
+category=Vector
+icon=icon.png
+experimental=False
+deprecated=False
