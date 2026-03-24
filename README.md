@@ -1,2 +1,2 @@
 # Forest Lot Checker 2020
-vnuf
+# This Plugin was created by Cuongnt Vietnam Forestry University +84981245628
