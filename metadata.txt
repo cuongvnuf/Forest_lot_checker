@@ -1,3 +1,4 @@
+[general]
 name=Forest Plot Review
 qgisMinimumVersion=3.22
 description=Rà soát lô rừng với ảnh vệ tinh Sentinel-2/Planet năm 2020. Xác nhận từng lô là có rừng (1) hoặc không có rừng (0).
