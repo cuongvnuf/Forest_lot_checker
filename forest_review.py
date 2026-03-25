@@ -18,15 +18,15 @@ class ForestReviewPlugin:
         icon_path = os.path.join(self.plugin_dir, "icon.png")
         icon = QIcon(icon_path) if os.path.exists(icon_path) else QIcon()
 
-        self.action = QAction(icon, "Rà Soát Lô Rừng", self.iface.mainWindow())
-        self.action.setToolTip("Mở công cụ rà soát lô rừng với ảnh vệ tinh 2020")
+        self.action = QAction(icon, "Forest Lot Review", self.iface.mainWindow())
+        self.action.setToolTip("Forest Lot Review")
         self.action.triggered.connect(self.run)
 
         self.iface.addToolBarIcon(self.action)
-        self.iface.addPluginToVectorMenu("&Rà Soát Rừng", self.action)
+        self.iface.addPluginToVectorMenu("&Forest Lot Review", self.action)
 
     def unload(self):
-        self.iface.removePluginVectorMenu("&Rà Soát Rừng", self.action)
+        self.iface.removePluginVectorMenu("&Forest Lot Review", self.action)
         self.iface.removeToolBarIcon(self.action)
         if self.dialog:
             self.dialog.close()
