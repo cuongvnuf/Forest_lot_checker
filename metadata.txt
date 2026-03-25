@@ -1,15 +1,18 @@
 [general]
-name=Forest Plot Review
+ForestParcelReviewerPro
+Copyright (C) 2026 Cuongnt
+License: GNU GPL v3
+name=Forest Plots Checker
 qgisMinimumVersion=3.22
-description=Rà soát lô rừng với ảnh vệ tinh Sentinel-2/Planet năm 2020. Xác nhận từng lô là có rừng (1) hoặc không có rừng (0).
+description=Forest plot review with Sentinel-2/Planet satellite imagery 2020. Confirm each plot is forested (1) or not forested (0).
 version=1.0.0
 author=Nguyen Trong Cuong _ VNUF
 email=cuongnt@vnuf.edu.vn
-about=Plugin hỗ trợ rà soát các lô rừng trong phòng bằng ảnh vệ tinh Sentinel-2 hoặc Planet năm 2020. Nhập shapefile lô rừng, duyệt từng lô theo ID, xem ảnh vệ tinh và ghi nhận kết quả xác nhận (0=không có rừng, 1=có rừng).
+about=Plugin to support forest plot review in the lab using Sentinel-2 or Planet satellite imagery 2020. Import forest plot shapefile, browse each plot by ID, view satellite imagery and record confirmation results (0=not forested, 1=forested).
 tracker=https://github.com/forest-review/qgis-plugin/issues
 repository=https://github.com/forest-review/qgis-plugin
-changelog=1.0.0 - Phiên bản đầu tiên do Nguyễn Trọng Cương phát triển
-tags=forest,remote sensing,sentinel,planet,review,vietnam,rừng,viễn thám
+changelog=1.0.0 - First version developed by Nguyen Trong Cuong
+tags=forest,remote sensing,sentinel,planet,review,vietnam,forest,remote sensing
 homepage=https://github.com/forest-review/qgis-plugin
 category=Vector
 icon=icon.png
