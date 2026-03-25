@@ -47,7 +47,7 @@ class ForestReviewDialog(QDialog):
         main_layout.setSpacing(8)
         main_layout.setContentsMargins(10, 10, 10, 10)
 
-        title_label = QLabel("REVIEW OF THE CURRENT STATUS OF FOREST")
+        title_label = QLabel("REVIEW THE CURRENT STATUS FOREST")
         title_font = QFont()
         title_font.setPointSize(11)
         title_font.setBold(True)
@@ -689,7 +689,7 @@ class ForestReviewDialog(QDialog):
         else:
             QMessageBox.information(
                 self, "Successful",
-                f"The last lot ({len(self.features)} lô).\n"
+                f"The last lot ({len(self.features)} lot).\n"
                 "You can go back to previous lot to edit."
             )
 
