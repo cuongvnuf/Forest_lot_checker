@@ -250,7 +250,7 @@ class ForestReviewDialog(QDialog):
         self.jump_spin.setMinimum(1)
         self.jump_spin.setMaximum(999999)
         jump_layout.addWidget(self.jump_spin)
-        jump_btn = QPushButton("Đến")
+        jump_btn = QPushButton("Go")
         jump_btn.clicked.connect(self._jump_to)
         jump_layout.addWidget(jump_btn)
         jump_layout.addStretch()
