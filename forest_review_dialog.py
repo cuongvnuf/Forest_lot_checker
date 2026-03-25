@@ -33,7 +33,7 @@ class ForestReviewDialog(QDialog):
         self.basemap_layer = None
         self.settings = QSettings("ForestReview", "ForestReviewPlugin")
 
-        self.setWindowTitle("Forest Plots Checker 2020")
+        self.setWindowTitle("Forest Plot Checker")
         self.setMinimumWidth(520)
         self.setMinimumHeight(650)
         self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
@@ -47,7 +47,7 @@ class ForestReviewDialog(QDialog):
         main_layout.setSpacing(8)
         main_layout.setContentsMargins(10, 10, 10, 10)
 
-        title_label = QLabel("REVIEW OF THE CURRENT STATUS OF FOREST IN 2020")
+        title_label = QLabel("REVIEW OF THE CURRENT STATUS OF FOREST")
         title_font = QFont()
         title_font.setPointSize(11)
         title_font.setBold(True)
@@ -86,7 +86,7 @@ class ForestReviewDialog(QDialog):
         self.result_field_combo.setToolTip("Select the field to save the review results (0/1). A new field can be created.")
         layer_layout.addWidget(self.result_field_combo, 2, 1)
 
-        self.create_field_btn = QPushButton("Create new feild")
+        self.create_field_btn = QPushButton("Create new field")
         self.create_field_btn.clicked.connect(self._create_review_field)
         layer_layout.addWidget(self.create_field_btn, 2, 2)
 
@@ -380,7 +380,7 @@ class ForestReviewDialog(QDialog):
         layer = QgsVectorLayer(file_path, layer_name, "ogr")
 
         if not layer.isValid():
-            QMessageBox.critical(self, "Error", f"Unable to load file":\n{file_path}")
+            QMessageBox.critical(self, "Error", f"Unable to load file:\n{file_path}")
             return
 
         if layer.geometryType() != QgsWkbTypes.PolygonGeometry:
@@ -411,7 +411,7 @@ class ForestReviewDialog(QDialog):
         if fields.indexOf(field_name) >= 0:
             QMessageBox.information(
                 self, "Notification",
-                f"Feild '{field_name}' It already exists in the data layer."
+                f"Field '{field_name}' It already exists in the data layer."
             )
             for i in range(self.result_field_combo.count()):
                 if self.result_field_combo.itemText(i) == field_name:
@@ -433,7 +433,7 @@ class ForestReviewDialog(QDialog):
 
         QMessageBox.information(
             self, "Successful",
-            f "Field created '{field_name}' in your data.\n"
+            f"Field created '{field_name}' in your data.\n"
             "This field will store the scan results (0= non-forest, 1=forest)."
         )
 
@@ -458,7 +458,7 @@ class ForestReviewDialog(QDialog):
                 uri = f"type=xyz&url={url}&zmin={zmin}&zmax={zmax}"
             elif source["type"] == "wms":
                 QMessageBox.information(
-                    self, "Thông tin",
+                    self, "Information",
                     "This WMS image source requires further configuration.\n"
                     "Please add it manually in QGIS > Layer > Add Layer > Add WMS/WMTS Layer."
                 )
@@ -469,8 +469,8 @@ class ForestReviewDialog(QDialog):
         existing = self._find_existing_layer(layer_name)
         if existing:
             reply = QMessageBox.question(
-                self, "This feild already exists.",
-                f"Feild '{layer_name}' It's already on the map. Continue adding?",
+                self, "This field already exists.",
+                f"Field '{layer_name}' It's already on the map. Continue adding?",
                 QMessageBox.Yes | QMessageBox.No
             )
             if reply == QMessageBox.No:
@@ -494,7 +494,7 @@ class ForestReviewDialog(QDialog):
         QMessageBox.information(
             self, "Thành công",
             f"Satellite imagery layer added.:\n'{layer_name}'\n\n"
-            "The image layer is placed at the bottom so as not to obscure the forest plot.."
+            "The image layer is placed at the bottom so as not to obscure the forest plot."
         )
 
     def _find_existing_layer(self, name):
@@ -563,7 +563,7 @@ class ForestReviewDialog(QDialog):
         total = len(self.features)
 
         id_val = feature[self.id_field] if self.id_field else str(feature.id())
-        self.current_id_label.setText(f"Lô #{id_val}")
+        self.current_id_label.setText(f"Lot #{id_val}")
         self.position_label.setText(f"{self.current_index + 1} / {total}")
         self.jump_spin.setValue(self.current_index + 1)
 
@@ -664,7 +664,7 @@ class ForestReviewDialog(QDialog):
         if field_idx < 0:
             QMessageBox.warning(
                 self, "Error",
-                f"Feild '{self.review_field}' Data not found data layer.\n"
+                f"Field '{self.review_field}' Data not found data layer.\n"
                 "Please create a results field."
             )
             return False
