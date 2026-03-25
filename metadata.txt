@@ -6,11 +6,11 @@ version=1.0.0
 author=Nguyen Trong Cuong _ VNUF
 email=cuongnt@vnuf.edu.vn
 about=Plugin to support forest plot review in the lab using Sentinel-2 or Planet satellite imagery 2020. Import forest plot shapefile, browse each plot by ID, view satellite imagery and record confirmation results (0=not forested, 1=forested).
-tracker=https://github.com/forest-review/qgis-plugin/issues
-repository=https://github.com/forest-review/qgis-plugin
+tracker=https://github.com/cuongvnuf/Forest_lot_checker.git
+repository=https://github.com/cuongvnuf/Forest_lot_checker.git
 changelog=1.0.0 - First version developed by Nguyen Trong Cuong
-tags=forest,remote sensing,sentinel,planet,review,vietnam,forest,remote sensing
-homepage=https://github.com/forest-review/qgis-plugin
+tags=forest,remote sensing,sentinel,planet,review,vietnam,forest
+homepage=https://plugins.qgis.org/plugins/Review-forest-plots-on-Sentinel-2-satellite-imagery-in-2020/
 category=Vector
 icon=icon.png
 experimental=False
