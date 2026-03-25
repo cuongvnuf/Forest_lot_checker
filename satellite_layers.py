@@ -31,7 +31,7 @@ SATELLITE_SOURCES = {
         "url": "https://sh.dataspace.copernicus.eu/ogc/wmts/43be0d69-7d28-4eb5-b6f9-0dc10b5b46b1?layer=TRUE-COLOR-S2L2A&style=default&tilematrixset=PopularWebMercator512&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fpng&TileMatrix={z}&TileCol={x}&TileRow={y}&TIME=2020-01-01/2020-12-31",
         "zmin": 0,
         "zmax": 14,
-        "description": "Sentinel-2 L2A True Color (2020) từ Copernicus Data Space",
+        "description": "Sentinel-2 L2A True Color (2020) from Copernicus Data Space",
     },
     "Google Earth Engine - Sentinel-2 2020": {
         "type": "wms",
