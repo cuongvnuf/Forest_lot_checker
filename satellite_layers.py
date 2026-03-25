@@ -1,6 +1,6 @@
 """
-Các nguồn ảnh vệ tinh được cấu hình sẵn cho rà soát lô rừng năm 2020.
-Bao gồm Sentinel-2 (Google Earth Engine) và các tile vệ tinh công khai.
+Pre-configured satellite imagery sources for the 2020 forest plot survey include:
+Sentinel-2 (Google Earth Engine) and publicly available satellite tiles.
 """
 
 SATELLITE_SOURCES = {
@@ -9,21 +9,21 @@ SATELLITE_SOURCES = {
         "url": "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
         "zmin": 0,
         "zmax": 21,
-        "description": "Ảnh vệ tinh Google (tổng hợp nhiều năm, độ phân giải cao)",
+        "description": "Google satellite imagery (compiled over many years, high resolution)",
     },
     "Sentinel-2 2020 (ESRI World Imagery)": {
         "type": "xyz",
         "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         "zmin": 0,
         "zmax": 19,
-        "description": "Ảnh vệ tinh ESRI World Imagery (cập nhật định kỳ, độ phân giải cao)",
+        "description": "ESRI World Imagery satellite imagery (regularly updated, high resolution)",
     },
     "Sentinel-2 2020 (Bing Maps)": {
         "type": "xyz",
         "url": "https://ecn.t3.tiles.virtualearth.net/tiles/a{q}.jpeg?g=1",
         "zmin": 0,
         "zmax": 19,
-        "description": "Ảnh vệ tinh Bing Maps",
+        "description": "Satellite Bing Maps",
         "tms": False,
     },
     "Sentinel-2 L2A (Copernicus Browser)": {
@@ -36,7 +36,7 @@ SATELLITE_SOURCES = {
     "Google Earth Engine - Sentinel-2 2020": {
         "type": "wms",
         "url": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/",
-        "description": "Cần API key Google Earth Engine (tùy chọn nâng cao)",
+        "description": "Google Earth Engine API key is required (advanced option).",
         "disabled": True,
     },
 }
