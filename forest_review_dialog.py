@@ -33,7 +33,7 @@ class ForestReviewDialog(QDialog):
         self.basemap_layer = None
         self.settings = QSettings("ForestReview", "ForestReviewPlugin")
 
-        self.setWindowTitle("Công cụ Rà Soát Lô Rừng 2020")
+        self.setWindowTitle("Forest Plots Checker 2020")
         self.setMinimumWidth(520)
         self.setMinimumHeight(650)
         self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
@@ -47,7 +47,7 @@ class ForestReviewDialog(QDialog):
         main_layout.setSpacing(8)
         main_layout.setContentsMargins(10, 10, 10, 10)
 
-        title_label = QLabel("RÀ SOÁT LÔ RỪNG VỚI ẢNH VỆ TINH 2020")
+        title_label = QLabel("REVIEW OF THE CURRENT STATUS OF FOREST IN 2020")
         title_font = QFont()
         title_font.setPointSize(11)
         title_font.setBold(True)
@@ -61,41 +61,41 @@ class ForestReviewDialog(QDialog):
         sep.setFrameShadow(QFrame.Sunken)
         main_layout.addWidget(sep)
 
-        layer_group = QGroupBox("1. Chọn lớp dữ liệu lô rừng")
+        layer_group = QGroupBox("1. Select data layer")
         layer_layout = QGridLayout(layer_group)
 
-        layer_layout.addWidget(QLabel("Lớp polygon:"), 0, 0)
+        layer_layout.addWidget(QLabel("Layer polygon:"), 0, 0)
         self.layer_combo = QComboBox()
         self.layer_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         self.layer_combo.currentIndexChanged.connect(self._on_layer_changed)
         layer_layout.addWidget(self.layer_combo, 0, 1)
 
-        load_btn = QPushButton("Tải shapefile...")
-        load_btn.setToolTip("Tải file shapefile lô rừng từ máy tính")
+        load_btn = QPushButton("Add layer...")
+        load_btn.setToolTip("Download the shapefile from your computer.")
         load_btn.clicked.connect(self._load_shapefile)
         layer_layout.addWidget(load_btn, 0, 2)
 
-        layer_layout.addWidget(QLabel("Trường ID lô:"), 1, 0)
+        layer_layout.addWidget(QLabel("Field ID of lot:"), 1, 0)
         self.id_field_combo = QComboBox()
         self.id_field_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         layer_layout.addWidget(self.id_field_combo, 1, 1, 1, 2)
 
-        layer_layout.addWidget(QLabel("Trường kết quả:"), 2, 0)
+        layer_layout.addWidget(QLabel("Result:"), 2, 0)
         self.result_field_combo = QComboBox()
         self.result_field_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        self.result_field_combo.setToolTip("Chọn trường lưu kết quả rà soát (0/1). Có thể tạo trường mới.")
+        self.result_field_combo.setToolTip("Select the field to save the review results (0/1). A new field can be created.")
         layer_layout.addWidget(self.result_field_combo, 2, 1)
 
-        self.create_field_btn = QPushButton("Tạo trường mới")
+        self.create_field_btn = QPushButton("Create new feild")
         self.create_field_btn.clicked.connect(self._create_review_field)
         layer_layout.addWidget(self.create_field_btn, 2, 2)
 
         main_layout.addWidget(layer_group)
 
-        satellite_group = QGroupBox("2. Ảnh vệ tinh nền (2020)")
+        satellite_group = QGroupBox("2. Satellite image (2020)")
         satellite_layout = QGridLayout(satellite_group)
 
-        satellite_layout.addWidget(QLabel("Nguồn ảnh:"), 0, 0)
+        satellite_layout.addWidget(QLabel("Image source:"), 0, 0)
         self.satellite_combo = QComboBox()
         for name, info in SATELLITE_SOURCES.items():
             if not info.get("disabled", False):
@@ -105,24 +105,24 @@ class ForestReviewDialog(QDialog):
             self.satellite_combo.setCurrentIndex(default_idx)
         satellite_layout.addWidget(self.satellite_combo, 0, 1)
 
-        self.add_satellite_btn = QPushButton("Thêm vào bản đồ")
+        self.add_satellite_btn = QPushButton("Add to map")
         self.add_satellite_btn.clicked.connect(self._add_satellite_layer)
         satellite_layout.addWidget(self.add_satellite_btn, 0, 2)
 
-        self.custom_url_check = QCheckBox("URL tùy chỉnh (XYZ/WMS):")
+        self.custom_url_check = QCheckBox("URL optional (XYZ/WMS):")
         self.custom_url_check.toggled.connect(self._toggle_custom_url)
         satellite_layout.addWidget(self.custom_url_check, 1, 0, 1, 3)
 
         self.custom_url_edit = QLineEdit()
         self.custom_url_edit.setPlaceholderText(
-            "https://... hoặc wms://url?layers=...&styles=...&..."
+            "https://... or wms://url?layers=...&styles=...&..."
         )
         self.custom_url_edit.setEnabled(False)
         satellite_layout.addWidget(self.custom_url_edit, 2, 0, 1, 3)
 
         sat_info_label = QLabel(
-            "Gợi ý: Dùng ESRI World Imagery hoặc Google Maps để xem ảnh vệ tinh năm gần nhất.\n"
-            "Để xem chính xác Sentinel-2 năm 2020, đăng nhập vào Copernicus Data Space."
+         "Hint: Use ESRI World Imagery or Google Maps to view the most recent satellite imagery."
+          "To view the exact Sentinel-2 image for 2020, log in to Copernicus Data Space."
         )
         sat_info_label.setWordWrap(True)
         sat_info_label.setStyleSheet("color: #555; font-size: 9pt;")
@@ -130,10 +130,10 @@ class ForestReviewDialog(QDialog):
 
         main_layout.addWidget(satellite_group)
 
-        init_group = QGroupBox("3. Khởi động rà soát")
+        init_group = QGroupBox("3. Start the review")
         init_layout = QHBoxLayout(init_group)
 
-        self.start_btn = QPushButton("BẮT ĐẦU RÀ SOÁT")
+        self.start_btn = QPushButton("START")
         self.start_btn.setMinimumHeight(36)
         self.start_btn.setStyleSheet(
             "QPushButton { background-color: #1a5c1a; color: white; font-weight: bold; border-radius: 4px; }"
@@ -143,7 +143,7 @@ class ForestReviewDialog(QDialog):
         self.start_btn.clicked.connect(self._start_review)
         init_layout.addWidget(self.start_btn)
 
-        self.total_label = QLabel("Tổng số lô: -")
+        self.total_label = QLabel("Total of lots: -")
         self.total_label.setAlignment(Qt.AlignCenter)
         init_layout.addWidget(self.total_label)
 
@@ -154,28 +154,28 @@ class ForestReviewDialog(QDialog):
         sep2.setFrameShadow(QFrame.Sunken)
         main_layout.addWidget(sep2)
 
-        review_group = QGroupBox("4. Rà soát từng lô")
+        review_group = QGroupBox("4. Review each forest lot.")
         review_layout = QVBoxLayout(review_group)
 
         info_layout = QGridLayout()
 
-        info_layout.addWidget(QLabel("Lô hiện tại:"), 0, 0)
+        info_layout.addWidget(QLabel("Current lot:"), 0, 0)
         self.current_id_label = QLabel("-")
         self.current_id_label.setFont(QFont("", 11, QFont.Bold))
         self.current_id_label.setStyleSheet("color: #1a3c8a;")
         info_layout.addWidget(self.current_id_label, 0, 1)
 
-        info_layout.addWidget(QLabel("Vị trí:"), 0, 2)
+        info_layout.addWidget(QLabel("Position:"), 0, 2)
         self.position_label = QLabel("-/-")
         self.position_label.setAlignment(Qt.AlignRight)
         info_layout.addWidget(self.position_label, 0, 3)
 
-        info_layout.addWidget(QLabel("Kết quả hiện tại:"), 1, 0)
+        info_layout.addWidget(QLabel("Present results:"), 1, 0)
         self.current_result_label = QLabel("-")
         self.current_result_label.setStyleSheet("font-weight: bold;")
         info_layout.addWidget(self.current_result_label, 1, 1)
 
-        info_layout.addWidget(QLabel("Diện tích:"), 1, 2)
+        info_layout.addWidget(QLabel("Area:"), 1, 2)
         self.area_label = QLabel("-")
         self.area_label.setAlignment(Qt.AlignRight)
         info_layout.addWidget(self.area_label, 1, 3)
@@ -187,14 +187,14 @@ class ForestReviewDialog(QDialog):
         verdict_frame.setStyleSheet("background-color: #f0f8f0; border-radius: 6px; padding: 5px;")
         verdict_layout = QVBoxLayout(verdict_frame)
 
-        verdict_title = QLabel("Kết quả xác nhận:")
+        verdict_title = QLabel("Confirmation results:")
         verdict_title.setFont(QFont("", 10, QFont.Bold))
         verdict_layout.addWidget(verdict_title)
 
         radio_layout = QHBoxLayout()
         self.verdict_group = QButtonGroup(self)
 
-        self.radio_forest = QRadioButton("1 - CÓ RỪNG")
+        self.radio_forest = QRadioButton("1 - FOREST")
         self.radio_forest.setStyleSheet(
             "QRadioButton { color: #1a5c1a; font-weight: bold; font-size: 11pt; padding: 5px 15px; }"
             "QRadioButton::indicator { width: 18px; height: 18px; }"
@@ -202,7 +202,7 @@ class ForestReviewDialog(QDialog):
         self.verdict_group.addButton(self.radio_forest, 1)
         radio_layout.addWidget(self.radio_forest)
 
-        self.radio_no_forest = QRadioButton("0 - KHÔNG CÓ RỪNG")
+        self.radio_no_forest = QRadioButton("0 - NON-FOREST")
         self.radio_no_forest.setStyleSheet(
             "QRadioButton { color: #8b0000; font-weight: bold; font-size: 11pt; padding: 5px 15px; }"
             "QRadioButton::indicator { width: 18px; height: 18px; }"
@@ -210,7 +210,7 @@ class ForestReviewDialog(QDialog):
         self.verdict_group.addButton(self.radio_no_forest, 0)
         radio_layout.addWidget(self.radio_no_forest)
 
-        self.radio_unclear = QRadioButton("? - Chưa xác định")
+        self.radio_unclear = QRadioButton("? - Undetermined")
         self.radio_unclear.setStyleSheet(
             "QRadioButton { color: #666; font-size: 10pt; padding: 5px 15px; }"
         )
@@ -222,7 +222,7 @@ class ForestReviewDialog(QDialog):
 
         nav_layout = QHBoxLayout()
 
-        self.prev_btn = QPushButton("← Lô trước")
+        self.prev_btn = QPushButton("← Previous lot")
         self.prev_btn.setMinimumHeight(34)
         self.prev_btn.setStyleSheet(
             "QPushButton { background-color: #4a7fb5; color: white; border-radius: 4px; }"
@@ -232,7 +232,7 @@ class ForestReviewDialog(QDialog):
         self.prev_btn.clicked.connect(self._go_prev)
         nav_layout.addWidget(self.prev_btn)
 
-        self.save_next_btn = QPushButton("Lưu & Lô tiếp theo →")
+        self.save_next_btn = QPushButton("Save & Next lot →")
         self.save_next_btn.setMinimumHeight(34)
         self.save_next_btn.setStyleSheet(
             "QPushButton { background-color: #1a5c1a; color: white; font-weight: bold; border-radius: 4px; }"
@@ -245,7 +245,7 @@ class ForestReviewDialog(QDialog):
         review_layout.addLayout(nav_layout)
 
         jump_layout = QHBoxLayout()
-        jump_layout.addWidget(QLabel("Nhảy đến lô số:"))
+        jump_layout.addWidget(QLabel("Go to number:"))
         self.jump_spin = QSpinBox()
         self.jump_spin.setMinimum(1)
         self.jump_spin.setMaximum(999999)
@@ -255,7 +255,7 @@ class ForestReviewDialog(QDialog):
         jump_layout.addWidget(jump_btn)
         jump_layout.addStretch()
 
-        self.zoom_btn = QPushButton("Zoom lô hiện tại")
+        self.zoom_btn = QPushButton("Zoom current lot")
         self.zoom_btn.clicked.connect(self._zoom_to_current)
         jump_layout.addWidget(self.zoom_btn)
 
@@ -263,7 +263,7 @@ class ForestReviewDialog(QDialog):
 
         main_layout.addWidget(review_group)
 
-        progress_group = QGroupBox("5. Tiến độ rà soát")
+        progress_group = QGroupBox("5. Work progress")
         progress_layout = QVBoxLayout(progress_group)
 
         self.progress_bar = QProgressBar()
@@ -275,12 +275,12 @@ class ForestReviewDialog(QDialog):
         progress_layout.addWidget(self.progress_bar)
 
         stats_layout = QHBoxLayout()
-        self.reviewed_label = QLabel("Đã rà soát: 0")
-        self.forest_label = QLabel("Có rừng: 0")
+        self.reviewed_label = QLabel("Checked: 0")
+        self.forest_label = QLabel("Forest: 0")
         self.forest_label.setStyleSheet("color: #1a5c1a; font-weight: bold;")
-        self.no_forest_label = QLabel("Không có rừng: 0")
+        self.no_forest_label = QLabel("Non Forest: 0")
         self.no_forest_label.setStyleSheet("color: #8b0000; font-weight: bold;")
-        self.remaining_label = QLabel("Chưa xét: 0")
+        self.remaining_label = QLabel("Not yet reviewed: 0")
         stats_layout.addWidget(self.reviewed_label)
         stats_layout.addWidget(self.forest_label)
         stats_layout.addWidget(self.no_forest_label)
@@ -290,7 +290,7 @@ class ForestReviewDialog(QDialog):
         main_layout.addWidget(progress_group)
 
         save_layout = QHBoxLayout()
-        self.save_all_btn = QPushButton("Lưu tất cả vào shapefile")
+        self.save_all_btn = QPushButton("Save all by shapefile")
         self.save_all_btn.setStyleSheet(
             "QPushButton { background-color: #8b6914; color: white; border-radius: 4px; padding: 5px 10px; }"
             "QPushButton:hover { background-color: #a07a1a; }"
@@ -298,11 +298,11 @@ class ForestReviewDialog(QDialog):
         self.save_all_btn.clicked.connect(self._save_all)
         save_layout.addWidget(self.save_all_btn)
 
-        self.export_btn = QPushButton("Xuất kết quả (CSV)...")
+        self.export_btn = QPushButton("Export to CSV")
         self.export_btn.clicked.connect(self._export_csv)
         save_layout.addWidget(self.export_btn)
 
-        self.close_btn = QPushButton("Đóng")
+        self.close_btn = QPushButton("Close")
         self.close_btn.clicked.connect(self.close)
         save_layout.addWidget(self.close_btn)
 
@@ -327,7 +327,7 @@ class ForestReviewDialog(QDialog):
 
     def _load_layers_combo(self):
         self.layer_combo.clear()
-        self.layer_combo.addItem("-- Chọn lớp --", None)
+        self.layer_combo.addItem("-- Select layer--", None)
         for layer in QgsProject.instance().mapLayers().values():
             if isinstance(layer, QgsVectorLayer) and layer.geometryType() == QgsWkbTypes.PolygonGeometry:
                 self.layer_combo.addItem(layer.name(), layer.id())
@@ -364,14 +364,14 @@ class ForestReviewDialog(QDialog):
 
         for i in range(self.result_field_combo.count()):
             fname = self.result_field_combo.itemText(i).lower()
-            if fname in ("forest_rev", "review", "ket_qua", "result", "co_rung"):
+            if fname in ("forest_rev", "review", "detail", "result", "forest"):
                 self.result_field_combo.setCurrentIndex(i)
                 break
 
     def _load_shapefile(self):
         file_path, _ = QFileDialog.getOpenFileName(
-            self, "Chọn file shapefile lô rừng", "",
-            "Shapefile (*.shp);;Tất cả file (*.*)"
+            self, "Select a file shapefile", "",
+            "Shapefile (*.shp);;All file (*.*)"
         )
         if not file_path:
             return
@@ -380,13 +380,13 @@ class ForestReviewDialog(QDialog):
         layer = QgsVectorLayer(file_path, layer_name, "ogr")
 
         if not layer.isValid():
-            QMessageBox.critical(self, "Lỗi", f"Không thể tải file:\n{file_path}")
+            QMessageBox.critical(self, "Error", f"Unable to load file":\n{file_path}")
             return
 
         if layer.geometryType() != QgsWkbTypes.PolygonGeometry:
             QMessageBox.warning(
-                self, "Cảnh báo",
-                "File đã chọn không phải dạng polygon. Vui lòng chọn shapefile lô rừng dạng polygon."
+                self, "Warning",
+                "The selected file is not a polygon. Please select a polygon shapefile for the forest plot."
             )
             return
 
@@ -403,15 +403,15 @@ class ForestReviewDialog(QDialog):
 
     def _create_review_field(self):
         if not self.current_layer:
-            QMessageBox.warning(self, "Cảnh báo", "Vui lòng chọn lớp dữ liệu trước.")
+            QMessageBox.warning(self, "Warning", "Please select a data layer")
             return
 
         field_name = "forest_rev"
         fields = self.current_layer.fields()
         if fields.indexOf(field_name) >= 0:
             QMessageBox.information(
-                self, "Thông báo",
-                f"Trường '{field_name}' đã tồn tại trong lớp dữ liệu."
+                self, "Notification",
+                f"Feild '{field_name}' It already exists in the data layer."
             )
             for i in range(self.result_field_combo.count()):
                 if self.result_field_combo.itemText(i) == field_name:
@@ -432,18 +432,18 @@ class ForestReviewDialog(QDialog):
                 break
 
         QMessageBox.information(
-            self, "Thành công",
-            f"Đã tạo trường '{field_name}' trong lớp dữ liệu.\n"
-            "Trường này sẽ lưu kết quả rà soát (0=không có rừng, 1=có rừng)."
+            self, "Successful",
+            f "Field created '{field_name}' in your data.\n"
+            "This field will store the scan results (0= non-forest, 1=forest)."
         )
 
     def _add_satellite_layer(self):
         if self.custom_url_check.isChecked():
             url = self.custom_url_edit.text().strip()
             if not url:
-                QMessageBox.warning(self, "Cảnh báo", "Vui lòng nhập URL ảnh vệ tinh.")
+                QMessageBox.warning(self, "Warning", "Please enter URL satellite image.")
                 return
-            layer_name = "Ảnh vệ tinh tùy chỉnh"
+            layer_name = "Optional satellite imagery"
             uri = f"type=xyz&url={url}&zmin=0&zmax=21"
         else:
             source_name = self.satellite_combo.currentText()
@@ -459,8 +459,8 @@ class ForestReviewDialog(QDialog):
             elif source["type"] == "wms":
                 QMessageBox.information(
                     self, "Thông tin",
-                    "Nguồn ảnh WMS này cần cấu hình thêm.\n"
-                    "Vui lòng thêm thủ công qua QGIS > Layer > Add Layer > Add WMS/WMTS Layer."
+                    "This WMS image source requires further configuration.\n"
+                    "Please add it manually in QGIS > Layer > Add Layer > Add WMS/WMTS Layer."
                 )
                 return
             else:
@@ -469,8 +469,8 @@ class ForestReviewDialog(QDialog):
         existing = self._find_existing_layer(layer_name)
         if existing:
             reply = QMessageBox.question(
-                self, "Lớp đã tồn tại",
-                f"Lớp '{layer_name}' đã có trong bản đồ. Thêm lại?",
+                self, "This feild already exists.",
+                f"Feild '{layer_name}' It's already on the map. Continue adding?",
                 QMessageBox.Yes | QMessageBox.No
             )
             if reply == QMessageBox.No:
@@ -479,9 +479,9 @@ class ForestReviewDialog(QDialog):
         satellite_layer = QgsRasterLayer(uri, layer_name, "wms")
         if not satellite_layer.isValid():
             QMessageBox.warning(
-                self, "Lỗi kết nối",
-                f"Không thể kết nối đến nguồn ảnh:\n{source_name}\n\n"
-                "Kiểm tra kết nối mạng và thử lại. Hoặc chọn nguồn ảnh khác."
+                self, "Connection error",
+                f"Unable to connect to image source:\n{source_name}\n\n"
+                "Check your network connection and try again. Or choose a different image source."
             )
             return
 
@@ -493,8 +493,8 @@ class ForestReviewDialog(QDialog):
         self.iface.mapCanvas().refresh()
         QMessageBox.information(
             self, "Thành công",
-            f"Đã thêm lớp ảnh vệ tinh:\n'{layer_name}'\n\n"
-            "Lớp ảnh được đặt ở dưới cùng để không che khuất lớp lô rừng."
+            f"Satellite imagery layer added.:\n'{layer_name}'\n\n"
+            "The image layer is placed at the bottom so as not to obscure the forest plot.."
         )
 
     def _find_existing_layer(self, name):
@@ -505,20 +505,20 @@ class ForestReviewDialog(QDialog):
 
     def _start_review(self):
         if not self.current_layer:
-            QMessageBox.warning(self, "Cảnh báo", "Vui lòng chọn lớp dữ liệu lô rừng trước.")
+            QMessageBox.warning(self, "Warning", "Please select the forest lot first.")
             return
 
         id_field = self.id_field_combo.currentText()
         result_field = self.result_field_combo.currentText()
 
         if not id_field:
-            QMessageBox.warning(self, "Cảnh báo", "Vui lòng chọn trường ID lô rừng.")
+            QMessageBox.warning(self, "Warning", "Please select the forest lot ID field.")
             return
 
         if not result_field:
             reply = QMessageBox.question(
-                self, "Chưa có trường kết quả",
-                "Chưa chọn trường lưu kết quả. Tự động tạo trường 'forest_rev'?",
+                self, "No field result",
+                "Field for saving results not selected. Automatically create field 'forest_rev'?",
                 QMessageBox.Yes | QMessageBox.No
             )
             if reply == QMessageBox.Yes:
@@ -535,12 +535,12 @@ class ForestReviewDialog(QDialog):
         self.features = list(self.current_layer.getFeatures(request))
 
         if not self.features:
-            QMessageBox.warning(self, "Cảnh báo", "Lớp dữ liệu không có đối tượng nào.")
+            QMessageBox.warning(self, "Warning", "The data layer contains no objects.")
             return
 
         self.current_index = 0
         total = len(self.features)
-        self.total_label.setText(f"Tổng số lô: {total}")
+        self.total_label.setText(f"Total lot: {total}")
         self.jump_spin.setMaximum(total)
         self.progress_bar.setMaximum(total)
 
@@ -548,7 +548,7 @@ class ForestReviewDialog(QDialog):
         self._display_current_feature()
         self._update_stats()
 
-        self.start_btn.setText("KHỞI ĐỘNG LẠI")
+        self.start_btn.setText("RESTART")
 
     def _display_current_feature(self):
         if not self.features:
@@ -588,15 +588,15 @@ class ForestReviewDialog(QDialog):
 
         if result_val == 1:
             self.radio_forest.setChecked(True)
-            self.current_result_label.setText("CÓ RỪNG (1)")
+            self.current_result_label.setText("FOREST (1)")
             self.current_result_label.setStyleSheet("color: #1a5c1a; font-weight: bold;")
         elif result_val == 0:
             self.radio_no_forest.setChecked(True)
-            self.current_result_label.setText("KHÔNG CÓ RỪNG (0)")
+            self.current_result_label.setText("NON-FOREST (0)")
             self.current_result_label.setStyleSheet("color: #8b0000; font-weight: bold;")
         else:
             self.radio_unclear.setChecked(True)
-            self.current_result_label.setText("Chưa xác định")
+            self.current_result_label.setText("Undetermined")
             self.current_result_label.setStyleSheet("color: #666; font-weight: bold;")
 
         self._zoom_to_current()
@@ -663,9 +663,9 @@ class ForestReviewDialog(QDialog):
 
         if field_idx < 0:
             QMessageBox.warning(
-                self, "Lỗi",
-                f"Trường '{self.review_field}' không tìm thấy trong lớp dữ liệu.\n"
-                "Vui lòng tạo trường kết quả trước."
+                self, "Error",
+                f"Feild '{self.review_field}' Data not found data layer.\n"
+                "Please create a results field."
             )
             return False
 
@@ -688,9 +688,9 @@ class ForestReviewDialog(QDialog):
             self._display_current_feature()
         else:
             QMessageBox.information(
-                self, "Hoàn thành",
-                f"Đã xét đến lô cuối cùng ({len(self.features)} lô).\n"
-                "Bạn có thể quay lại các lô trước để chỉnh sửa."
+                self, "Successful",
+                f"The last lot ({len(self.features)} lô).\n"
+                "You can go back to previous lot to edit."
             )
 
     def _go_prev(self):
@@ -732,11 +732,11 @@ class ForestReviewDialog(QDialog):
         pct = int(reviewed_count / total * 100) if total > 0 else 0
 
         self.progress_bar.setValue(reviewed_count)
-        self.progress_bar.setFormat(f"{reviewed_count}/{total} lô ({pct}%)")
-        self.reviewed_label.setText(f"Đã rà soát: {reviewed_count}")
-        self.forest_label.setText(f"Có rừng: {forest_count}")
-        self.no_forest_label.setText(f"Không có rừng: {no_forest_count}")
-        self.remaining_label.setText(f"Chưa xét: {remaining}")
+        self.progress_bar.setFormat(f"{reviewed_count}/{total} lot ({pct}%)")
+        self.reviewed_label.setText(f"Checked: {reviewed_count}")
+        self.forest_label.setText(f"Forest: {forest_count}")
+        self.no_forest_label.setText(f"Non-forest: {no_forest_count}")
+        self.remaining_label.setText(f"Unverified: {remaining}")
 
     def _save_all(self):
         if not self.current_layer:
@@ -744,17 +744,17 @@ class ForestReviewDialog(QDialog):
         self.current_layer.startEditing()
         self.current_layer.commitChanges()
         QMessageBox.information(
-            self, "Đã lưu",
-            "Tất cả kết quả đã được lưu vào file shapefile."
+            self, "SAVED",
+            "All results have been saved shapefile."
         )
 
     def _export_csv(self):
         if not self.current_layer or not self.features:
-            QMessageBox.warning(self, "Cảnh báo", "Chưa có dữ liệu để xuất.")
+            QMessageBox.warning(self, "Warning", "No data available to export.")
             return
 
         file_path, _ = QFileDialog.getSaveFileName(
-            self, "Lưu kết quả rà soát", "",
+            self, "Save results", "",
             "CSV files (*.csv);;All files (*.*)"
         )
         if not file_path:
@@ -771,27 +771,27 @@ class ForestReviewDialog(QDialog):
             import csv
             with open(file_path, "w", newline="", encoding="utf-8-sig") as f:
                 writer = csv.writer(f)
-                writer.writerow(["STT", "ID_LO", "KET_QUA", "MO_TA"])
+                writer.writerow(["STT", "ID_LO", "RESULTS", "DETAIL"])
 
                 for i, feature in enumerate(self.current_layer.getFeatures()):
                     id_val = feature.attributes()[id_idx] if id_idx >= 0 else feature.id()
                     result_val = feature.attributes()[field_idx] if field_idx >= 0 else None
 
                     if result_val == 1:
-                        desc = "Có rừng"
+                        desc = "forest"
                     elif result_val == 0:
-                        desc = "Không có rừng"
+                        desc = "none-forest"
                     else:
-                        desc = "Chưa xác định"
+                        desc = "Undetermined"
 
                     writer.writerow([i + 1, id_val, result_val if result_val is not None else "", desc])
 
             QMessageBox.information(
-                self, "Xuất thành công",
-                f"Đã xuất kết quả rà soát ra file:\n{file_path}"
+                self, "Export complet",
+                f"The review results have been exported:\n{file_path}"
             )
         except Exception as e:
-            QMessageBox.critical(self, "Lỗi", f"Không thể xuất file:\n{str(e)}")
+            QMessageBox.critical(self, "Error", f"Can not export file:\n{str(e)}")
 
     def _restore_settings(self):
         pass
