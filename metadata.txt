@@ -1,7 +1,4 @@
 [general]
-ForestParcelReviewerPro
-Copyright (C) 2026 Cuongnt
-License: GNU GPL v3
 name=Forest Plots Checker
 qgisMinimumVersion=3.22
 description=Forest plot review with Sentinel-2/Planet satellite imagery 2020. Confirm each plot is forested (1) or not forested (0).
