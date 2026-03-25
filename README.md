@@ -6,7 +6,7 @@ Upload shapefiles containing forest plots (polygons)
 Browse each plot sequentially by ID
 Display Sentinel-2 or Planet 2020 satellite imagery as a background (via XYZ tile/WMS)
 Automatically zoom to each plot being reviewed
-Enter confirmation code: 0 (no forest) or 1 (forest present) for each plot
+Enter confirmation code: 0 (non-forest) or 1 (forest) for each plot
 Save results to the shapefile's attribute fields
 Navigation: previous plot / next plot / jump to any plot
 Progress bar displaying review status
